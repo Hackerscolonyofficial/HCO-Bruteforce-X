@@ -21,14 +21,12 @@ def lock_screen():
     print(f"{R}======================================================={W}\n")
     print(f"{B}[*] Redirecting you to YouTube app...{W}")
     
-    # Precise Countdown: 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
     for num in range(9, -1, -1):
         sys.stdout.write(f"{R}{num}.{W}")
         sys.stdout.flush()
         time.sleep(0.4)
     print("\n")
     
-    # Open YouTube channel link
     os.system("xdg-open 'https://youtube.com/@hackers_colony_termux?si=ARLURAWczQOy2mtC'") 
     
     print(f"{CY}-------------------------------------------------------{W}")
@@ -56,29 +54,45 @@ def fix_path(path_input):
     path = path.replace('"', '').replace("'", "")
     return path
 
-def brute_force_auto(pdf_file):
-    print(f"\n{B}[*] Generating combinations for Auto Passlist...{W}")
-    chars = string.ascii_lowercase + string.digits
+def smart_brute_force(pdf_file):
+    print(f"\n{B}[*] Initializing Smart Intelligent Auto Passlist...{W}")
     
-    try:
-        reader = pypdf.PdfReader(pdf_file)
-    except Exception as e:
-        print(f"{R}[!] Error reading PDF file structure: {e}{W}")
-        return
+    # Pre-defined high-probability common patterns (Up-to-Down & Down-to-Up)
+    smart_patterns = [
+        "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890",
+        "4321", "54321", "654321", "7654321", "87654321", "987654321", "0987654321",
+        "0000", "1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888", "9999",
+        "000000", "111111", "999999", "1122", "112233", "1212", "123123", "password"
+    ]
+    
+    print(f"{Y}[*] Layer 1: Blasting High-Probability Common Patterns...{W}")
+    for password in smart_patterns:
+        sys.stdout.write(f"\r{R}[~] Testing: {password:<15}{W}")
+        sys.stdout.flush()
+        try:
+            reader = pypdf.PdfReader(pdf_file)
+            if reader.decrypt(password) in [1, 2]:
+                print(f"\n\n{G}[!!!] SUCCESS! UNLOCKED WITH PASSWORD: {password}{W}")
+                return True
+        except: continue
 
-    for length in range(1, 5): 
-        print(f"\n{Y}[*] Active Bruteforce Layer -> Length: {length}{W}")
-        for p in itertools.product(chars, repeat=length):
+    print(f"\n\n{Y}[*] Layer 2: Scanning Numerical Ranges (4 to 6 Digits)...{W}")
+    # Automatic numbers generate karega bina heavy alphabetic combinations ke
+    for length in range(4, 7):
+        print(f"\n{B}[+] Testing Numeric Sequence -> Length: {length}{W}")
+        for p in itertools.product(string.digits, repeat=length):
             password = ''.join(p)
             sys.stdout.write(f"\r{R}[~] Blasting: {password:<15}{W}")
             sys.stdout.flush()
             try:
-                if reader.decrypt(password) > 0:
+                reader = pypdf.PdfReader(pdf_file)
+                if reader.decrypt(password) in [1, 2]:
                     print(f"\n\n{G}[!!!] SUCCESS! UNLOCKED WITH PASSWORD: {password}{W}")
-                    return
-            except:
-                continue
-    print(f"\n{R}[-] Auto Passlist processing finished. Password not found.{W}")
+                    return True
+            except: continue
+
+    print(f"\n{R}[-] Smart Auto Passlist finished. Password not found.{W}")
+    return False
 
 def main_menu():
     lock_screen()   
@@ -99,7 +113,6 @@ def main_menu():
     
     if not os.path.exists(pdf_file):
         print(f"{R}[!] File not found! Path check karein: {pdf_file}{W}")
-        print(f"{Y}[Tip] Ensure Termux has storage permission: run 'termux-setup-storage' first.{W}")
         return
 
     if choice == '1':
@@ -110,7 +123,6 @@ def main_menu():
             return
             
         try:
-            reader = pypdf.PdfReader(pdf_file)
             print(f"\n{B}[*] Processing Custom Passlist...{W}")
             with open(wordlist, 'r', errors='ignore') as file:
                 for password in file:
@@ -118,16 +130,16 @@ def main_menu():
                     sys.stdout.write(f"\r{R}[~] Testing: {password:<15}{W}")
                     sys.stdout.flush()
                     try:
-                        if reader.decrypt(password) > 0:
+                        reader = pypdf.PdfReader(pdf_file)
+                        if reader.decrypt(password) in [1, 2]:
                             print(f"\n\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
                             return
-                    except: 
-                        continue
+                    except: continue
             print(f"\n{R}[-] Attack finished. Password not matching your list.{W}")
         except Exception as e:
             print(f"{R}[!] Error: {e}{W}")
     else:
-        brute_force_auto(pdf_file)
+        smart_brute_force(pdf_file)
 
 if __name__ == "__main__":
     main_menu()
