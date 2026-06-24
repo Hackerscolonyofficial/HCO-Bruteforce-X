@@ -3,6 +3,7 @@ import os
 import time
 import itertools
 import string
+import sys
 
 # ANSI Colours
 R = '\033[31m' # Red
@@ -24,59 +25,91 @@ def banner():
     print(f"{G}==========================================================================={W}\n")
 
 def start_training():
-    print(f"{R}[!] Security Protocol: Mandatory Training Required.{W}")
-    time.sleep(2)
+    print(f"{R}This tool is locked 🔐{W}")
+    print(f"{G}To unlock this tool like, subscribe & click on the bell icon 🔔{W}\n")
+    print(f"{R}Redirecting you to YouTube app...{W}")
+    
+    # Visual Countdown (9.8.7.6.5.4.3.2.1)
+    countdown_numbers = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+    for num in countdown_numbers:
+        sys.stdout.write(f"{R}{num}... {W}")
+        sys.stdout.flush()
+        time.sleep(0.5)
+    print("\n")
+    
+    # YouTube App Open Intent
     os.system("xdg-open youtube://channel/YOUR_CHANNEL_ID") 
-    input(f"\n{G}[!] Watch the tutorial and hit ENTER to unlock the vault...{W}")
+    
+    print(f"{G}-------------------------------------------------------{W}")
+    input(f"{G}[!] After subscribing, come back and hit ENTER to unlock 🔓 : {W}")
+    print(f"{G}-------------------------------------------------------{W}")
 
 def brute_force_auto(pdf_file):
     print(f"{G}[*] Generating combinations for Auto-Attack...{W}")
     chars = string.ascii_lowercase + string.digits
     
-    # Reader object initialization
-    reader = pypdf.PdfReader(pdf_file)
-    
+    # Optimization: Reader object ko loop ke bahar ek hi baar initialize kiya hai
+    try:
+        reader = pypdf.PdfReader(pdf_file)
+    except Exception as e:
+        print(f"{R}[!] Error reading PDF: {e}{W}")
+        return
+
+    # 1 se 4 length tak ke saare automatic passwords check karega
     for length in range(1, 5): 
+        print(f"\n{R}[*] Testing passwords with length: {length}{W}")
         for p in itertools.product(chars, repeat=length):
             password = ''.join(p)
+            
+            # Live combination printer taaki screen stuck na lage
+            sys.stdout.write(f"\r{R}[~] Trying: {password:<15}{W}")
+            sys.stdout.flush()
+            
             try:
                 if reader.decrypt(password) > 0:
-                    print(f"\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
+                    print(f"\n\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
                     return
             except:
                 continue
-    print(f"{R}[-] Auto-Attack failed.{W}")
+                
+    print(f"\n{R}[-] Auto-Attack finished. Password not found in basic range.{W}")
 
 def cracker():
     banner()
     start_training()
-    banner()
+    banner() # Lock clear hone ke baad firse fresh banner dikhega
     
     pdf_file = input(f"{G}[?] Enter Path to Locked PDF: {W}")
     if not os.path.exists(pdf_file):
-        print(f"{R}[!] File not found!{W}")
+        print(f"{R}[!] File not found! Check the path again.{W}")
         return
 
     print(f"\n{G}[1] Use Custom Wordlist")
     print(f"[2] Run Auto-Attack{W}")
     choice = input(f"{G}Select Mode: {W}")
     
-    reader = pypdf.PdfReader(pdf_file)
-    
     if choice == '1':
         wordlist = input(f"{G}Enter Path to Wordlist: {W}")
         if not os.path.exists(wordlist):
             print(f"{R}[!] Wordlist file not found!{W}")
             return
-        with open(wordlist, 'r', errors='ignore') as file:
-            for password in file:
-                password = password.strip()
-                try:
-                    if reader.decrypt(password) > 0:
-                        print(f"\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
-                        return
-                except: 
-                    continue
+            
+        try:
+            reader = pypdf.PdfReader(pdf_file)
+            print(f"\n{G}[*] Scanning through custom wordlist...{W}")
+            with open(wordlist, 'r', errors='ignore') as file:
+                for password in file:
+                    password = password.strip()
+                    sys.stdout.write(f"\r{R}[~] Trying: {password:<15}{W}")
+                    sys.stdout.flush()
+                    try:
+                        if reader.decrypt(password) > 0:
+                            print(f"\n\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
+                            return
+                    except: 
+                        continue
+        except Exception as e:
+            print(f"{R}[!] Error: {e}{W}")
     else:
         brute_force_auto(pdf_file)
 
