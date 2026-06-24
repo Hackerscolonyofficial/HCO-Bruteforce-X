@@ -16,45 +16,47 @@
 ---
 
 ## ⚙️ WHAT CAN THIS TOOL DO?
-**HCO-Bruteforce-X** ek high-speed hybrid encryption testing framework hai jo heavy internal dictionary engine aur smart guessing algorithms ka use karta hai:
-* 🔓 **PDF Encryption Bypass:** Kisi bhi password-protected PDF document ko test aur analyze kar sakta hai.
-* 🤖 **Smart Auto Passlist Engine:** Bina kisi external file ke, duniya ke sabse high-probability passwords (sequences, repeated digits, aur standard numeric patterns) ko instantly blast karta hai.
-* 📂 **Custom Multi-Layer Wordlist Support:** Aap apni target-specific custom dictionary/passlist (`.txt`) ko run karke complex combinations (`Azhar@123`, `DOB` patterns) crack kar sakte hain.
+**HCO-Bruteforce-X** is a high-speed hybrid encryption testing framework that utilizes an optimized internal dictionary engine and smart guessing algorithms:
+* 🔓 **PDF Encryption Bypass:** Capable of testing and analyzing any password-protected PDF document.
+* 🤖 **Smart Auto Passlist Engine:** Instantly blasts high-probability global passwords (sequences, repeated digits, and standard numeric patterns) without requiring any external file.
+* 📂 **Custom Multi-Layer Wordlist Support:** Allows you to run target-specific custom dictionaries or passlists (`.txt`) to bypass complex alphanumeric combinations (such as `Azhar@123` or custom DOB patterns).
+
+---
+
 
 ---
 
 ## 📥 INSTALLATION COMMANDS (STEP-BY-STEP)
 
-Koi bhi command miss mat karna taaki koi dependencies error na aaye.
+⚠️ Do not miss any Commands
 
 ### 📱 METHOD 1: FOR TERMUX (ANDROID)
-Termux open karein aur ye commands line-by-line copy-paste karein:
 
 ```bash
 ```
-# System repositories update karein
+# Update System Repository
 ```
 pkg update && pkg upgrade -y
 ```
-# Storage permission grant karein (Crucial for path errors)
+# Grant Storage permission (Crucial for path errors)
 ```
 termux-setup-storage
 ```
-# Core packages aur compilers install karein
+# Install Core packages and compilers
 ```
 pkg install git python clang make -y
 ```
-# Pip package manager ko upgrade karein
+# Uograde Pip package manager
 ```
 pip install --upgrade pip
 ```
-# Tool ki required dependencies install karein
+# Install required dependencies for the Tool
 ```
 pip install pypdf
 ```
-# Repository clone karein aur execute karein
+# Clone Repository in Your Termux
 ```
-git clone [https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git](https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git)
+git clone https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git
 
 cd HCO-Bruteforce-X
 
@@ -66,7 +68,7 @@ python3 HCO-Bruteforce-X.py
 --------------------------------
 # 💻 METHOD 2: FOR KALI LINUX 🐧
 
-# System package lists update karein
+# Update System Package List
 ```
 sudo apt update && sudo apt upgrade -y
 ```
@@ -78,9 +80,9 @@ sudo apt install git python3 python3-pip -y
 ```
 pip3 install pypdf
 ```
-# Repository clone karke run karein
+# Clone Repository in your Linux 
 ```
-git clone [https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git](https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git)
+git clone https://github.com/Hackerscolonyofficial/HCO-Bruteforce-X.git
 
 cd HCO-Bruteforce-X
 
@@ -92,15 +94,19 @@ python3 HCO-Bruteforce-X.py
 ### 🎮 HOW TO USE THE TOOL
 
 1. **Authentication Gate:** As soon as you run the tool, a security verification screen will appear, redirecting you to the YouTube app for a tutorial and support.
-2. **Unlock Command:** After visiting the channel, return to Termux/Kali Linux and press **ENTER** to unlock the tool.
-3. **Select Options:**
+    
+2.** Unlock Command: Channel par visit karne ke baad wapas Termux/Kali mein aakar ENTER dabayein
+   
+4. **Unlock Command:** After visiting the channel, return to Termux/Kali Linux and press **ENTER** to unlock the tool.
+
+5. **Select Options:**
    * **Option `1` (Add Your Passlist):** Provide the full path to your custom-made wordlist to bypass complex alphanumeric passwords.
    * **Option `2` (Use Auto Passlist):** Select this to launch a direct, intelligent guessing blast targeting numeric patterns and basic sequences.
 
 ---
 
 ## 👨‍💻 CREDITS & AUTHOR
-* **Lead Developer:** Azhar
+* **Lead Developer:** Azhar Team HCO 👨‍💻
 * **Official Channel:** [Hackers Colony Tech]([https://youtube.com/@hackers_colony_termux?si=ARLURAWczQOy2mtC](https://youtube.com/@hackers_colony_tech?si=MbYr0BYW7t6fBYXD))
 
 ---
