@@ -1,4 +1,4 @@
-import pikepdf
+import pypdf
 import os
 import time
 import itertools
@@ -32,11 +32,15 @@ def start_training():
 def brute_force_auto(pdf_file):
     print(f"{G}[*] Generating combinations for Auto-Attack...{W}")
     chars = string.ascii_lowercase + string.digits
+    
+    # Reader object initialization
+    reader = pypdf.PdfReader(pdf_file)
+    
     for length in range(1, 5): 
         for p in itertools.product(chars, repeat=length):
             password = ''.join(p)
             try:
-                with pikepdf.open(pdf_file, password=password) as pdf:
+                if reader.decrypt(password) > 0:
                     print(f"\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
                     return
             except:
@@ -57,6 +61,8 @@ def cracker():
     print(f"[2] Run Auto-Attack{W}")
     choice = input(f"{G}Select Mode: {W}")
     
+    reader = pypdf.PdfReader(pdf_file)
+    
     if choice == '1':
         wordlist = input(f"{G}Enter Path to Wordlist: {W}")
         if not os.path.exists(wordlist):
@@ -66,10 +72,11 @@ def cracker():
             for password in file:
                 password = password.strip()
                 try:
-                    with pikepdf.open(pdf_file, password=password) as pdf:
+                    if reader.decrypt(password) > 0:
                         print(f"\n{G}[!!!] SUCCESS! Password Found: {password}{W}")
                         return
-                except: continue
+                except: 
+                    continue
     else:
         brute_force_auto(pdf_file)
 
