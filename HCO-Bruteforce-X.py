@@ -50,11 +50,9 @@ def bold_hacker_banner():
     print(f"{B}==========================================================================={W}\n")
 
 def fix_path(path_input):
-    # Agar path direct 'storage/' se shuru ho raha hai, toh aage '/' add karega
     path = path_input.strip()
     if path.startswith("storage/"):
         path = "/" + path
-    # Windows ke quotes (") ko clean karega agar copy-paste mein aa gaya ho
     path = path.replace('"', '').replace("'", "")
     return path
 
@@ -83,10 +81,10 @@ def brute_force_auto(pdf_file):
     print(f"\n{R}[-] Auto Passlist processing finished. Password not found.{W}")
 
 def main_menu():
-    lock_screen()   # 1. Pehle validation aur redirect lock chalega
-    bold_hacker_banner()  # 2. Unlock hone ke baad hi bada bold text aur menu aayega
+    lock_screen()   
+    bold_hacker_banner()  
     
-    print(f"{Y}============= MENU ============="{W})
+    print(f"{Y}============= MENU ============={W}")
     print(f"{B}[1] Add Your Passlist")
     print(f"[2] Use Auto Passlist{W}")
     print(f"{Y}================================{W}")
@@ -96,7 +94,6 @@ def main_menu():
         print(f"{R}[!] Invalid selection! Exiting...{W}")
         return
         
-    # Option select hone ke baad hi file path maangega
     raw_path = input(f"\n{CY}[?] Enter Path to Locked PDF: {W}")
     pdf_file = fix_path(raw_path)
     
